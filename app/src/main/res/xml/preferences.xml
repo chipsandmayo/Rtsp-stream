@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory app:title="Updates">
+        <Preference
+            app:key="check_updates"
+            app:title="Check for updates" />
+        <Preference
+            app:key="install_update"
+            app:title="Update"
+            app:summary="Check for updates first"
+            app:enabled="false" />
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="Network">
         <ListPreference
             app:key="transport"

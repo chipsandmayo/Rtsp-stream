@@ -11,8 +11,10 @@ android {
         applicationId = "com.chipsandmayo.rtspstream"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        // CI sets GITHUB_RUN_NUMBER, so every build gets a higher version for the in-app updater
+        val build = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
+        versionCode = build
+        versionName = "1.0.$build"
     }
 
     // One fixed key for every build, so new APKs install as updates over old ones.
@@ -45,6 +47,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     lint {
         // Media3's RTSP knobs are marked @UnstableApi; we opt in deliberately.
@@ -64,4 +67,6 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
 }

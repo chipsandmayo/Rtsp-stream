@@ -28,13 +28,19 @@ jobs:
           path: app/build/outputs/apk/debug/*.apk
       - name: Rename APK
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        run: cp app/build/outputs/apk/debug/app-debug.apk RtspStream.apk
+        run: |
+          cp app/build/outputs/apk/debug/app-debug.apk RtspStream.apk
+          jq -n --argjson code ${{ github.run_number }} --arg name "1.0.${{ github.run_number }}" \
+            --arg notes "$(git log -1 --pretty=%s)" \
+            '{versionCode: $code, versionName: $name, notes: $notes}' > version.json
       - name: Publish "latest" release
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
-          name: Latest build
+          name: Latest build (1.0.${{ github.run_number }})
           body: "Debug build of ${{ github.sha }}. Download RtspStream.apk below and open it on your phone to install."
           make_latest: true
-          files: RtspStream.apk
+          files: |
+            RtspStream.apk
+            version.json
