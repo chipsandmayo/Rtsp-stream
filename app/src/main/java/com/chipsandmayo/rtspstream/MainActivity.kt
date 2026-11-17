@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,9 +22,12 @@ class MainActivity : AppCompatActivity() {
     private val adapter = RecentAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.padForSystemBars()
+        setSupportActionBar(binding.toolbar)
         store = StreamStore(this)
 
         binding.recentList.layoutManager = LinearLayoutManager(this)

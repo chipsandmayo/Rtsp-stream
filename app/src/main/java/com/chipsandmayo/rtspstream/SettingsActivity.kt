@@ -2,25 +2,25 @@ package com.chipsandmayo.rtspstream
 
 import android.os.Bundle
 import android.text.InputType
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.chipsandmayo.rtspstream.databinding.ActivitySettingsBinding
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceFragmentCompat
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.root.padForSystemBars()
+        binding.toolbar.setNavigationOnClickListener { finish() }
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.settingsContainer, SettingsFragment())
                 .commit()
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
