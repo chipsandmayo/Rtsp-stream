@@ -15,7 +15,21 @@ android {
         versionName = "1.0"
     }
 
+    // One fixed key for every build, so new APKs install as updates over old ones.
+    // Fine for personal/sideloaded use; use a private key (kept out of git) before publishing to Play.
+    signingConfigs {
+        create("shared") {
+            storeFile = file("rtsp-debug.keystore")
+            storePassword = "rtspstream"
+            keyAlias = "rtspstream"
+            keyPassword = "rtspstream"
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("shared")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
