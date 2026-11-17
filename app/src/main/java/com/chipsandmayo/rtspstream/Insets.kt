@@ -6,16 +6,18 @@ import androidx.core.view.WindowInsetsCompat
 
 /**
  * Android 15+ draws apps edge-to-edge, under the status/navigation bars.
- * Pad this view so its content sits clear of the system bars, notch and keyboard.
+ * Adds the system bar / notch / keyboard insets on top of the view's own padding.
  */
-fun View.padForSystemBars() {
+fun View.padForSystemBars(includeIme: Boolean = true) {
+    val start = paddingLeft
+    val top = paddingTop
+    val end = paddingRight
+    val bottom = paddingBottom
     ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
-        val bars = insets.getInsets(
-            WindowInsetsCompat.Type.systemBars() or
-                WindowInsetsCompat.Type.displayCutout() or
-                WindowInsetsCompat.Type.ime()
-        )
-        v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
-        WindowInsetsCompat.CONSUMED
+        var types = WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+        if (includeIme) types = types or WindowInsetsCompat.Type.ime()
+        val bars = insets.getInsets(types)
+        v.setPadding(start + bars.left, top + bars.top, end + bars.right, bottom + bars.bottom)
+        insets
     }
 }

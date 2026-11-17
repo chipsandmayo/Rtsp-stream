@@ -43,6 +43,8 @@ class SettingsActivity : AppCompatActivity() {
             checkPref = findPreference("check_updates")!!
             updatePref = findPreference("install_update")!!
             checkPref.summary = "Installed version: ${Updater.installedVersionName}"
+            findPreference<Preference>("version")?.summary =
+                "${Updater.installedVersionName} (build ${Updater.installedVersionCode})"
             checkPref.setOnPreferenceClickListener { checkForUpdates(); true }
             updatePref.setOnPreferenceClickListener { downloadAndInstall(); true }
 

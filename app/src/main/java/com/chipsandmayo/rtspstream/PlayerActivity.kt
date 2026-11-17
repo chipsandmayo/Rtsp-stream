@@ -98,11 +98,16 @@ class PlayerActivity : AppCompatActivity() {
         binding.playerView.setShowPreviousButton(false)
         binding.playerView.setControllerVisibilityListener(
             androidx.media3.ui.PlayerView.ControllerVisibilityListener { visibility ->
-                binding.topActions.visibility = visibility
+                if (!isInPictureInPictureMode) binding.topBar.visibility = visibility
             }
         )
+        binding.topBar.padForSystemBars(includeIme = false)
 
+        binding.streamTitle.text = entry.displayHost
+        binding.streamSubtitle.text = entry.displayPath
         binding.statusText.isVisible = settings.showStats
+        binding.backButton.setOnClickListener { finish() }
+        binding.errorBackButton.setOnClickListener { finish() }
         binding.muteButton.setOnClickListener { setMuted(!muted) }
         binding.snapshotButton.setOnClickListener { takeSnapshot() }
         binding.retryButton.setOnClickListener {
@@ -140,6 +145,7 @@ class PlayerActivity : AppCompatActivity() {
     private fun initializePlayer() {
         if (player != null) return
         binding.errorPanel.isVisible = false
+        if (reconnectAttempts == 0) showLoading(getString(R.string.connecting))
 
         val b = settings.buffer
         val loadControl = DefaultLoadControl.Builder()
@@ -193,11 +199,22 @@ class PlayerActivity : AppCompatActivity() {
 
     private val playerListener = object : Player.Listener {
         override fun onPlaybackStateChanged(state: Int) {
-            if (state == Player.STATE_READY) {
-                reconnectAttempts = 0
-                binding.errorPanel.isVisible = false
+            when (state) {
+                Player.STATE_READY -> {
+                    reconnectAttempts = 0
+                    binding.errorPanel.isVisible = false
+                    binding.loadingPanel.isVisible = false
+                }
+                Player.STATE_BUFFERING ->
+                    if (!binding.errorPanel.isVisible && !binding.loadingPanel.isVisible) {
+                        showLoading(getString(R.string.connecting))
+                    }
             }
             updateStats()
+        }
+
+        override fun onIsPlayingChanged(isPlaying: Boolean) {
+            binding.liveBadge.isVisible = isPlaying
         }
 
         override fun onVideoSizeChanged(videoSize: VideoSize) {
@@ -220,10 +237,10 @@ class PlayerActivity : AppCompatActivity() {
                 (settings.maxReconnects == 0 || reconnectAttempts < settings.maxReconnects)
             if (canRetry) {
                 reconnectAttempts++
-                showMessage(getString(R.string.reconnecting, settings.reconnectDelaySec, reconnectAttempts), showRetry = false)
+                showLoading(getString(R.string.reconnecting, settings.reconnectDelaySec, reconnectAttempts))
                 handler.postDelayed({ restartPlayer() }, settings.reconnectDelaySec * 1000L)
             } else {
-                showMessage(getString(R.string.playback_error, describe(error)), showRetry = true)
+                showError(describe(error))
             }
         }
     }
@@ -232,18 +249,25 @@ class PlayerActivity : AppCompatActivity() {
         val cause = error.cause?.message
         return when (error.errorCode) {
             PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_FAILED ->
-                "can't reach the camera/server. Check the address and that you're on the same network."
+                "Couldn't reach the camera or server. Check the address and that you're on the same network."
             PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT ->
-                "connection timed out. Try TCP transport in Settings."
+                "The connection timed out. Try setting Transport to TCP in Settings."
             PlaybackException.ERROR_CODE_IO_BAD_HTTP_STATUS ->
-                "server rejected the request (wrong path or credentials?)"
-            else -> listOfNotNull(error.errorCodeName, cause).joinToString(" — ")
+                "The server rejected the request. Check the stream path, username and password."
+            else -> listOfNotNull(error.errorCodeName, cause).joinToString("\n")
         }
     }
 
-    private fun showMessage(text: String, showRetry: Boolean) {
+    private fun showLoading(text: String) {
+        binding.loadingText.text = text
+        binding.loadingPanel.isVisible = true
+        binding.errorPanel.isVisible = false
+    }
+
+    private fun showError(text: String) {
         binding.errorText.text = text
-        binding.retryButton.isVisible = showRetry
+        binding.loadingPanel.isVisible = false
+        binding.liveBadge.isVisible = false
         binding.errorPanel.isVisible = true
     }
 
@@ -256,9 +280,7 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun updateMuteIcon() {
-        binding.muteButton.setImageResource(
-            if (muted) android.R.drawable.ic_lock_silent_mode else android.R.drawable.ic_lock_silent_mode_off
-        )
+        binding.muteButton.setIconResource(if (muted) R.drawable.ic_volume_off else R.drawable.ic_volume_on)
     }
 
     @SuppressLint("SetTextI18n")
@@ -345,7 +367,7 @@ class PlayerActivity : AppCompatActivity() {
     override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
         binding.playerView.useController = !isInPictureInPictureMode
-        binding.topActions.visibility = if (isInPictureInPictureMode) View.GONE else View.VISIBLE
+        binding.topBar.visibility = if (isInPictureInPictureMode) View.GONE else View.VISIBLE
         binding.statusText.isVisible = settings.showStats && !isInPictureInPictureMode
     }
 

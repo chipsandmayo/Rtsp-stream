@@ -7,6 +7,22 @@ import org.json.JSONObject
 
 data class StreamEntry(val url: String, val username: String = "", val password: String = "") {
 
+    /** Friendly label, e.g. "192.168.1.10" (port shown only if not the RTSP default). */
+    val displayHost: String
+        get() {
+            val uri = Uri.parse(url)
+            val host = uri.host ?: return url
+            return if (uri.port != -1 && uri.port != 554) "$host:${uri.port}" else host
+        }
+
+    /** Path and query, e.g. "/Streaming/Channels/101". */
+    val displayPath: String
+        get() {
+            val uri = Uri.parse(url)
+            val path = (uri.encodedPath ?: "") + (uri.encodedQuery?.let { "?$it" } ?: "")
+            return Uri.decode(path).ifEmpty { "/" }
+        }
+
     /** The URL with credentials injected as user-info, which Media3's RTSP client uses for Basic/Digest auth. */
     fun playbackUri(): Uri {
         val uri = Uri.parse(url)
@@ -45,6 +61,8 @@ class StreamStore(context: Context) {
     fun remove(entry: StreamEntry) = save(all().filterNot { it == entry })
 
     fun clear() = prefs.edit().remove(KEY).apply()
+
+    fun replaceAll(list: List<StreamEntry>) = save(list)
 
     private fun save(list: List<StreamEntry>) {
         val arr = JSONArray()

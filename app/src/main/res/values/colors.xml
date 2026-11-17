@@ -1,0 +1,8 @@
+<resources>
+    <!-- Fallback brand palette (Android 12+ uses the wallpaper-based Material You palette instead) -->
+    <color name="brand_primary">#1565C0</color>
+    <color name="brand_primary_container">#D3E4FF</color>
+    <color name="brand_on_primary_container">#001C3A</color>
+    <color name="brand_secondary_container">#D7E3F8</color>
+    <color name="brand_on_secondary_container">#101C2B</color>
+</resources>

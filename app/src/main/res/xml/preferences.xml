@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="Updates">
-        <Preference
-            app:key="check_updates"
-            app:title="Check for updates" />
-        <Preference
-            app:key="install_update"
-            app:title="Update"
-            app:summary="Check for updates first"
-            app:enabled="false" />
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="Network">
+    <PreferenceCategory app:title="Network" app:iconSpaceReserved="false">
         <ListPreference
             app:key="transport"
             app:title="Transport protocol"
+            app:icon="@drawable/ic_wifi"
             app:defaultValue="auto"
             app:entries="@array/transport_entries"
             app:entryValues="@array/transport_values"
@@ -23,61 +14,71 @@
         <EditTextPreference
             app:key="timeout_ms"
             app:title="Connection timeout (ms)"
+            app:icon="@drawable/ic_timer"
             app:defaultValue="8000"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             app:key="user_agent"
             app:title="User agent"
+            app:icon="@drawable/ic_code"
             app:defaultValue="RtspStream/1.0"
             app:useSimpleSummaryProvider="true" />
         <SwitchPreferenceCompat
             app:key="auto_reconnect"
             app:title="Auto-reconnect"
+            app:icon="@drawable/ic_refresh"
             app:summary="Retry automatically when the stream drops"
             app:defaultValue="true" />
         <EditTextPreference
             app:key="reconnect_delay_s"
             app:title="Reconnect delay (seconds)"
+            app:icon="@drawable/ic_history"
             app:defaultValue="3"
             app:dependency="auto_reconnect"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             app:key="max_reconnects"
             app:title="Max reconnect attempts (0 = unlimited)"
+            app:icon="@drawable/ic_numbers"
             app:defaultValue="0"
             app:dependency="auto_reconnect"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Latency &amp; buffering">
+    <PreferenceCategory app:title="Latency &amp; buffering" app:iconSpaceReserved="false">
         <ListPreference
             app:key="latency_preset"
             app:title="Latency preset"
+            app:icon="@drawable/ic_speed"
             app:defaultValue="low"
             app:entries="@array/latency_entries"
             app:entryValues="@array/latency_values"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             app:key="min_buffer_ms"
-            app:title="Custom: min buffer (ms)"
+            app:title="Min buffer (ms)"
+            app:iconSpaceReserved="true"
             app:defaultValue="500"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             app:key="max_buffer_ms"
-            app:title="Custom: max buffer (ms)"
+            app:title="Max buffer (ms)"
+            app:iconSpaceReserved="true"
             app:defaultValue="2000"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             app:key="start_buffer_ms"
-            app:title="Custom: buffer before playback starts (ms)"
+            app:title="Buffer before playback starts (ms)"
+            app:iconSpaceReserved="true"
             app:defaultValue="250"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Video">
+    <PreferenceCategory app:title="Video" app:iconSpaceReserved="false">
         <ListPreference
             app:key="resize_mode"
             app:title="Aspect ratio / scaling"
+            app:icon="@drawable/ic_aspect"
             app:defaultValue="fit"
             app:entries="@array/resize_entries"
             app:entryValues="@array/resize_values"
@@ -85,6 +86,7 @@
         <ListPreference
             app:key="orientation"
             app:title="Screen orientation"
+            app:icon="@drawable/ic_phone"
             app:defaultValue="auto"
             app:entries="@array/orientation_entries"
             app:entryValues="@array/orientation_values"
@@ -92,35 +94,71 @@
         <ListPreference
             app:key="decoder"
             app:title="Video decoder"
+            app:icon="@drawable/ic_memory"
             app:defaultValue="hardware"
             app:entries="@array/decoder_entries"
             app:entryValues="@array/decoder_values"
             app:useSimpleSummaryProvider="true" />
         <SwitchPreferenceCompat
             app:key="show_stats"
-            app:title="Show stream info overlay"
-            app:summary="Resolution, codec, frame rate and state"
+            app:title="Stream info overlay"
+            app:icon="@drawable/ic_info"
+            app:summary="Resolution, codec, frame rate and buffer"
             app:defaultValue="false" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Playback">
+    <PreferenceCategory app:title="Playback" app:iconSpaceReserved="false">
         <SwitchPreferenceCompat
             app:key="start_muted"
             app:title="Start muted"
+            app:icon="@drawable/ic_volume_off"
             app:defaultValue="false" />
         <SwitchPreferenceCompat
             app:key="keep_screen_on"
             app:title="Keep screen on"
+            app:icon="@drawable/ic_brightness"
             app:defaultValue="true" />
         <SwitchPreferenceCompat
             app:key="pip_on_leave"
-            app:title="Picture-in-picture when leaving"
+            app:title="Picture-in-picture"
+            app:icon="@drawable/ic_pip"
             app:summary="Keep watching in a small window when you press Home"
             app:defaultValue="true" />
         <SwitchPreferenceCompat
             app:key="remember_credentials"
-            app:title="Remember passwords in recent list"
-            app:summary="Stored unencrypted on this device"
+            app:title="Remember passwords"
+            app:icon="@drawable/ic_lock"
+            app:summary="Saved with recent streams, unencrypted on this device"
             app:defaultValue="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Updates" app:iconSpaceReserved="false">
+        <Preference
+            app:key="check_updates"
+            app:title="Check for updates"
+            app:icon="@drawable/ic_refresh" />
+        <Preference
+            app:key="install_update"
+            app:title="Update"
+            app:icon="@drawable/ic_download"
+            app:summary="Check for updates first"
+            app:enabled="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="About" app:iconSpaceReserved="false">
+        <Preference
+            app:key="version"
+            app:title="Version"
+            app:icon="@drawable/ic_info"
+            app:selectable="false" />
+        <Preference
+            app:key="source"
+            app:title="Source code"
+            app:icon="@drawable/ic_code"
+            app:summary="github.com/chipsandmayo/Rtsp-stream">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/chipsandmayo/Rtsp-stream" />
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
