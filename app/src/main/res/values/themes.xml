@@ -1,0 +1,11 @@
+<resources>
+    <style name="Theme.RtspStream" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">#1E88E5</item>
+        <item name="colorSecondary">#26A69A</item>
+    </style>
+
+    <style name="Theme.RtspStream.Player" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+</resources>

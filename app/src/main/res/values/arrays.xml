@@ -1,0 +1,60 @@
+<resources>
+    <string-array name="transport_entries">
+        <item>Auto (UDP, fall back to TCP)</item>
+        <item>TCP (interleaved)</item>
+    </string-array>
+    <string-array name="transport_values">
+        <item>auto</item>
+        <item>tcp</item>
+    </string-array>
+
+    <string-array name="latency_entries">
+        <item>Ultra low (≈250 ms)</item>
+        <item>Low (≈500 ms)</item>
+        <item>Balanced (≈1 s)</item>
+        <item>Smooth (≈2.5 s)</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="latency_values">
+        <item>ultra</item>
+        <item>low</item>
+        <item>balanced</item>
+        <item>smooth</item>
+        <item>custom</item>
+    </string-array>
+
+    <string-array name="resize_entries">
+        <item>Fit</item>
+        <item>Fill (stretch)</item>
+        <item>Zoom (crop)</item>
+        <item>Fixed width</item>
+        <item>Fixed height</item>
+    </string-array>
+    <string-array name="resize_values">
+        <item>fit</item>
+        <item>fill</item>
+        <item>zoom</item>
+        <item>fixed_width</item>
+        <item>fixed_height</item>
+    </string-array>
+
+    <string-array name="orientation_entries">
+        <item>Auto-rotate</item>
+        <item>Landscape</item>
+        <item>Portrait</item>
+    </string-array>
+    <string-array name="orientation_values">
+        <item>auto</item>
+        <item>landscape</item>
+        <item>portrait</item>
+    </string-array>
+
+    <string-array name="decoder_entries">
+        <item>Hardware (recommended)</item>
+        <item>Prefer software</item>
+    </string-array>
+    <string-array name="decoder_values">
+        <item>hardware</item>
+        <item>software</item>
+    </string-array>
+</resources>

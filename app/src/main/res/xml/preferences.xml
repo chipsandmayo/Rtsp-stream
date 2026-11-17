@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Network">
+        <ListPreference
+            app:key="transport"
+            app:title="Transport protocol"
+            app:defaultValue="auto"
+            app:entries="@array/transport_entries"
+            app:entryValues="@array/transport_values"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="timeout_ms"
+            app:title="Connection timeout (ms)"
+            app:defaultValue="8000"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="user_agent"
+            app:title="User agent"
+            app:defaultValue="RtspStream/1.0"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:key="auto_reconnect"
+            app:title="Auto-reconnect"
+            app:summary="Retry automatically when the stream drops"
+            app:defaultValue="true" />
+        <EditTextPreference
+            app:key="reconnect_delay_s"
+            app:title="Reconnect delay (seconds)"
+            app:defaultValue="3"
+            app:dependency="auto_reconnect"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="max_reconnects"
+            app:title="Max reconnect attempts (0 = unlimited)"
+            app:defaultValue="0"
+            app:dependency="auto_reconnect"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Latency &amp; buffering">
+        <ListPreference
+            app:key="latency_preset"
+            app:title="Latency preset"
+            app:defaultValue="low"
+            app:entries="@array/latency_entries"
+            app:entryValues="@array/latency_values"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="min_buffer_ms"
+            app:title="Custom: min buffer (ms)"
+            app:defaultValue="500"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="max_buffer_ms"
+            app:title="Custom: max buffer (ms)"
+            app:defaultValue="2000"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="start_buffer_ms"
+            app:title="Custom: buffer before playback starts (ms)"
+            app:defaultValue="250"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Video">
+        <ListPreference
+            app:key="resize_mode"
+            app:title="Aspect ratio / scaling"
+            app:defaultValue="fit"
+            app:entries="@array/resize_entries"
+            app:entryValues="@array/resize_values"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:key="orientation"
+            app:title="Screen orientation"
+            app:defaultValue="auto"
+            app:entries="@array/orientation_entries"
+            app:entryValues="@array/orientation_values"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:key="decoder"
+            app:title="Video decoder"
+            app:defaultValue="hardware"
+            app:entries="@array/decoder_entries"
+            app:entryValues="@array/decoder_values"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:key="show_stats"
+            app:title="Show stream info overlay"
+            app:summary="Resolution, codec, frame rate and state"
+            app:defaultValue="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Playback">
+        <SwitchPreferenceCompat
+            app:key="start_muted"
+            app:title="Start muted"
+            app:defaultValue="false" />
+        <SwitchPreferenceCompat
+            app:key="keep_screen_on"
+            app:title="Keep screen on"
+            app:defaultValue="true" />
+        <SwitchPreferenceCompat
+            app:key="pip_on_leave"
+            app:title="Picture-in-picture when leaving"
+            app:summary="Keep watching in a small window when you press Home"
+            app:defaultValue="true" />
+        <SwitchPreferenceCompat
+            app:key="remember_credentials"
+            app:title="Remember passwords in recent list"
+            app:summary="Stored unencrypted on this device"
+            app:defaultValue="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">RTSP Stream</string>
+    <string name="settings">Settings</string>
+    <string name="rtsp_url">RTSP address</string>
+    <string name="rtsp_url_hint">rtsp://192.168.1.10:554/stream1</string>
+    <string name="username">Username (optional)</string>
+    <string name="password">Password (optional)</string>
+    <string name="play">Play</string>
+    <string name="recent_streams">Recent streams</string>
+    <string name="no_recent">No recent streams yet</string>
+    <string name="clear_recent">Clear recent</string>
+    <string name="invalid_url">Address must start with rtsp:// or rtsps://</string>
+    <string name="connecting">Connecting…</string>
+    <string name="buffering">Buffering…</string>
+    <string name="reconnecting">Connection lost — reconnecting in %1$d s (attempt %2$d)</string>
+    <string name="playback_error">Playback error: %1$s</string>
+    <string name="retry">Retry</string>
+    <string name="mute">Mute</string>
+    <string name="snapshot">Snapshot</string>
+    <string name="snapshot_saved">Snapshot saved to Pictures/RtspStream</string>
+    <string name="snapshot_failed">Snapshot failed</string>
+    <string name="delete">Delete</string>
+</resources>
